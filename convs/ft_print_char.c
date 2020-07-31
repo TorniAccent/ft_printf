@@ -12,10 +12,15 @@
 
 #include "../printf.h"
 
-int		ft_print_char(char c, t_struct *tmp)
+int		ft_print_char(va_list *ap, t_struct *tmp)
 {
-	int		len;
+	int				len;
+	unsigned char	c;
 
+	if (tmp->type == '%')
+		c = '%';
+	else
+		c = (unsigned char)va_arg(*ap, int);
 	len = 1;
 	if (tmp->flag_minus)
 	{

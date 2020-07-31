@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/12 08:13:31 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/27 17:26:17 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/23 20:19:39 by student           #+#    #+#             */
+/*   Updated: 2020/05/25 20:47:50 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#define MAX 9223372036854775807
 
-int		ft_atoi(const char *nptr)
+int		ft_atoi(const char *str)
 {
-	int				sign;
-	unsigned long	res;
+	int	res;
+	int	sgn;
+	int	flg;
 
 	res = 0;
-	sign = 1;
-	while ((*nptr == '\t') || (*nptr == '\n') || (*nptr == '\v') ||\
-	(*nptr == '\r') || (*nptr == '\f') || (*nptr == ' '))
-		nptr++;
-	if ((*nptr == '-') || (*nptr == '+'))
+	flg = 0;
+	sgn = 1;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	(*str == '-') ? (sgn = -1) : 0;
+	if (str[1] == '2' && sgn == -1)
 	{
-		if (*nptr == '-')
-			sign = -1;
-		nptr++;
+		res = -2;
+		sgn = 1;
+		str += 2;
+		flg = 1;
 	}
-	while (*nptr >= 48 && *nptr <= 57)
-	{
-		if (sign == -1 && res >= MAX)
-			return (0);
-		if (sign == 1 && res >= MAX)
-			return (-1);
-		res = 10 * res + (*nptr - '0');
-		nptr++;
-	}
-	return (res * sign);
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+		if (flg)
+			res = res * 10 - *str++ + '0';
+		else
+			res = res * 10 + *str++ - '0';
+	return (res * sgn);
 }

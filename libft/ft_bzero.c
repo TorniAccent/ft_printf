@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/04 07:05:44 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/19 05:47:41 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/22 05:36:19 by student           #+#    #+#             */
+/*   Updated: 2020/05/22 05:49:28 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_bzero(void *src, size_t num)
+void	ft_bzero(void *dst, size_t n)
 {
-	unsigned int	i;
-	unsigned char	*dest;
-
-	i = 0;
-	dest = (unsigned char*)src;
-	while (i < num)
-		dest[i++] = '\0';
-	return (src);
+	if (!dst)
+		return ;
+	while (n--)
+	{
+		*(char *)dst++ = (unsigned char)0;
+	}
 }

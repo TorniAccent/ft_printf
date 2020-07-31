@@ -12,17 +12,8 @@
 
 #include "../printf.h"
 
-int		ft_print_ptr(unsigned long long i, t_struct *tmp)
+static void	cond(t_struct *tmp, char *temp, int len)
 {
-	int		len;
-	char	*buf;
-	char	*temp;
-
-	if (!(buf = ft_xtoa(i, "0123456789abcdef")))
-		return (0);
-	temp = buf;
-	len = (*temp == '0' && tmp->precision_null) ? 0 : ft_strlen(temp);
-	tmp->precision = (tmp->precision >= len) ? tmp->precision - len : 0;
 	if (tmp->flag_minus)
 	{
 		tmp->res += write(1, "0x", 2);
@@ -37,6 +28,22 @@ int		ft_print_ptr(unsigned long long i, t_struct *tmp)
 		print_zero(tmp, tmp->precision - tmp->res);
 		tmp->res += write(1, temp, len);
 	}
+}
+
+int			ft_print_ptr(va_list *ap, t_struct *tmp)
+{
+	int					len;
+	char				*buf;
+	char				*temp;
+	unsigned long long	i;
+
+	i = va_arg(*ap, unsigned long long);
+	if (!(buf = ft_xtoa(i, "0123456789abcdef")))
+		return (0);
+	temp = buf;
+	len = (*temp == '0' && tmp->precision_null) ? 0 : ft_strlen(temp);
+	tmp->precision = (tmp->precision >= len) ? tmp->precision - len : 0;
+	cond(tmp, temp, len);
 	free(buf);
 	return (tmp->res);
 }

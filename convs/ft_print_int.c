@@ -30,12 +30,8 @@ static int	check_int(char *ptr, t_struct *tmp)
 	return (len);
 }
 
-int			ft_print_int(char *ptr, t_struct *tmp)
+static void	cond(t_struct *tmp, char *ptr, int len)
 {
-	static int	len = 0;
-
-	if ((len = check_int(ptr, tmp)) == -1)
-		return (-1);
 	if (*ptr == '-')
 		tmp->res = ft_print_minus(ptr, len, tmp);
 	else if (tmp->flag_minus)
@@ -55,6 +51,17 @@ int			ft_print_int(char *ptr, t_struct *tmp)
 		print_zero(tmp, tmp->precision);
 		write_int(ptr, len, tmp);
 	}
+}
+
+int			ft_print_int(va_list *ap, t_struct *tmp)
+{
+	static int	len = 0;
+	char		*ptr;
+
+	ptr = ft_itoa(va_arg(*ap, int));
+	if ((len = check_int(ptr, tmp)) == -1)
+		return (-1);
+	cond(tmp, ptr, len);
 	free(ptr);
 	return (tmp->res);
 }

@@ -3,75 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/14 08:07:21 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/24 08:31:13 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/24 19:31:51 by student           #+#    #+#             */
+/*   Updated: 2020/05/25 21:40:45 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	start_nofind_char(char const *s1, char const *set)
+static	char	*ft_cstrim(char *s2, char *s3)
 {
-	int i;
-	int j;
+	int		size;
+	char	*trim;
+	int		i;
 
+	size = (unsigned long)s3 - (unsigned long)s2 + 1;
+	if ((trim = (char*)malloc(size + 1)) == 0)
+		return (0);
 	i = 0;
-	j = 0;
-	while (set[j] != '\0')
-	{
-		while (s1[i] == set[j] && s1[i] != '\0')
-			i++;
-		j++;
-		if (s1[i] == set[j] && s1[i] != '\0')
-		{
-			i++;
-			j = 0;
-		}
-	}
-	return (i);
+	while (s2 < s3)
+		trim[i++] = *s2++;
+	trim[i++] = *s2;
+	trim[i] = '\0';
+	return (trim);
 }
 
-static int	end_nofind_char(char const *s1, char const *set)
+static	char	*empty(void)
 {
-	int i;
-	int j;
+	char *s;
 
-	i = ft_strlen(s1) - 1;
-	j = 0;
-	while (set[j] != '\0')
-	{
-		while (s1[i] == set[j])
-			i--;
-		j++;
-		if (s1[i] == set[j])
-		{
-			i--;
-			j = 0;
-		}
-	}
-	return (i);
+	if (!(s = (char *)malloc(1)))
+		return (0);
+	*s = '\0';
+	return (s);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char			*ft_strtrim(char const *s1, char const *set)
 {
-	char			*temp;
-	unsigned int	begin;
-	unsigned int	end;
-	size_t			len;
+	char	*s2;
+	char	*s3;
+	int		i;
 
-	if (s1 == NULL || set == NULL)
-		return (NULL);
-	len = ft_strlen(s1);
-	begin = start_nofind_char(s1, set);
-	end = end_nofind_char(s1, set);
-	if (begin == len)
-	{
-		temp = malloc(1);
-		*temp = '\0';
-		return (temp);
-	}
-	temp = ft_substr(s1, begin, end - begin + 1);
-	return (temp);
+	if (!s1 || !set)
+		return (0);
+	s2 = (char*)s1;
+	s3 = (char*)s1 + ft_strlen(s1) - 1;
+	i = -1;
+	while (*s2 && set[++i])
+		if (*s2 == set[i])
+		{
+			s2++;
+			i = -1;
+		}
+	i = -1;
+	while (s3 != (char*)s1 && set[++i])
+		if (*s3 == set[i])
+		{
+			s3--;
+			i = -1;
+		}
+	return (!*s2 ? empty() : ft_cstrim(s2, s3));
 }

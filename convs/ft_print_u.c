@@ -12,14 +12,8 @@
 
 #include "../printf.h"
 
-int		ft_print_u(unsigned int i, t_struct *tmp)
+static void	cond(t_struct *tmp, char *temp, int len)
 {
-	char	*temp;
-	int		len;
-
-	if (!(temp = ft_utoa(i)))
-		return (-1);
-	len = check_len(tmp, temp);
 	if (tmp->flag_minus)
 	{
 		print_zero(tmp, tmp->precision);
@@ -37,6 +31,19 @@ int		ft_print_u(unsigned int i, t_struct *tmp)
 		print_zero(tmp, tmp->precision);
 		tmp->res += write(1, temp, len);
 	}
+}
+
+int			ft_print_u(va_list *ap, t_struct *tmp)
+{
+	char			*temp;
+	int				len;
+	unsigned int	i;
+
+	i = va_arg(*ap, unsigned int);
+	if (!(temp = ft_utoa(i)))
+		return (-1);
+	len = check_len(tmp, temp);
+	cond(tmp, temp, len);
 	free(temp);
 	return (tmp->res);
 }

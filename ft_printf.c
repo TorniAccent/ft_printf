@@ -81,22 +81,20 @@ static const char		*parser(const char *s, t_struct *tmp, va_list ap)
 	return (s);
 }
 
-static int				processor(va_list ap, t_struct *tmp)
+static int				processor(va_list *ap, t_struct *tmp)
 {
-	if (tmp->type == '%')
-		ft_print_char('%', tmp);
-	else if (tmp->type == 'd' || tmp->type == 'i')
-		ft_print_int(ft_itoa(va_arg(ap, int)), tmp);
-	else if (tmp->type == 's')
-		ft_print_str(va_arg(ap, char*), tmp);
-	else if (tmp->type == 'c')
-		ft_print_char(va_arg(ap, int), tmp);
-	else if (tmp->type == 'p')
-		ft_print_ptr(va_arg(ap, unsigned long long), tmp);
-	else if (tmp->type == 'u')
-		ft_print_u(va_arg(ap, unsigned int), tmp);
-	else if (tmp->type == 'x' || tmp->type == 'X')
-		ft_print_hex(va_arg(ap, unsigned int), tmp);
+	const char	*convs = "cspdiuxX%";
+	int			i;
+	static int	(*mods[9])(va_list *, t_struct *) = { \
+		ft_print_char, ft_print_str, ft_print_ptr, ft_print_int, \
+		ft_print_int, ft_print_u, ft_print_hex, ft_print_hex, ft_print_char};
+
+	i = 0;
+	while (tmp->type != convs[i])
+		i++;
+	if (i == 9)
+		return (0);
+	mods[i](ap, tmp);
 	return (tmp->res);
 }
 
@@ -117,7 +115,7 @@ int						ft_printf(const char *s, ...)
 			if (ft_lstnew_printf(&container) == NULL)
 				return (-1);
 			s = parser((++s), &container, ap);
-			container.res = processor(ap, &container);
+			container.res = processor(&ap, &container);
 			res = (container.res == -1) ? -1 : (res + container.res);
 		}
 	}

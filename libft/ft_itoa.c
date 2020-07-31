@@ -3,53 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/17 13:36:20 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/28 19:33:03 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/24 17:45:36 by student           #+#    #+#             */
+/*   Updated: 2020/05/28 04:49:32 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		count(int c)
+static void	ft(int n, char *s)
 {
-	int i;
-
-	i = 0;
-	if (c < 0)
-		i++;
-	if (c == 0)
-		i++;
-	while (c)
+	if (n < 10)
 	{
-		c = c / 10;
-		i++;
+		*s = n + '0';
+		return ;
 	}
-	return (i);
+	ft(n / 10, s - 1);
+	*s = n % 10 + '0';
 }
 
-char			*ft_itoa(int n)
+char		*ft_itoa(int nbr)
 {
-	char	*res;
 	int		len;
-	int		buf;
+	int		n;
+	int		neg;
+	char	*str;
 
-	len = count(n);
-	if (!(res = malloc(sizeof(*res) * (len + 1))))
-		return (NULL);
-	res[len] = '\0';
-	if (n == 0)
-		res[0] = '0';
-	if (n < 0)
-		res[0] = '-';
-	while (n)
-	{
-		buf = n % 10;
-		if (buf < 0)
-			buf = -buf;
-		res[--len] = buf + '0';
-		n /= 10;
-	}
-	return (res);
+	if (nbr == -2147483648)
+		return (ft_strdup("-2147483648"));
+	if (nbr == 0)
+		return (ft_strdup("0"));
+	len = 1;
+	neg = 1;
+	n = nbr;
+	n < 0 ? len++ : (neg = 0);
+	while (n /= 10)
+		len++;
+	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
+		return (0);
+	str[len] = '\0';
+	if (neg)
+		*str = '-';
+	ft(nbr < 0 ? -nbr : nbr, str + len - 1);
+	return (str);
 }

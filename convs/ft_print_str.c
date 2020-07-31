@@ -12,16 +12,8 @@
 
 #include "../printf.h"
 
-int		ft_print_str(char *temp, t_struct *tmp)
+static void	cond(t_struct *tmp, char *temp, int len)
 {
-	int		len;
-	int		nil;
-
-	nil = (!temp) ? 1 : 0;
-	if (!temp && !(temp = ft_strdup("(null)")))
-		return (-1);
-	len = (tmp->precision_null) ? 0 : ft_strlen(temp);
-	len = (tmp->precision && tmp->precision <= len) ? tmp->precision : len;
 	if (tmp->flag_minus)
 	{
 		tmp->res += write(1, temp, len);
@@ -37,6 +29,21 @@ int		ft_print_str(char *temp, t_struct *tmp)
 		print_blank(tmp, tmp->width - (tmp->res + len));
 		tmp->res += write(1, temp, len);
 	}
+}
+
+int			ft_print_str(va_list *ap, t_struct *tmp)
+{
+	int		len;
+	int		nil;
+	char	*temp;
+
+	temp = va_arg(*ap, char *);
+	nil = (!temp) ? 1 : 0;
+	if (!temp && !(temp = ft_strdup("(null)")))
+		return (-1);
+	len = (tmp->precision_null) ? 0 : ft_strlen(temp);
+	len = (tmp->precision && tmp->precision <= len) ? tmp->precision : len;
+	cond(tmp, temp, len);
 	(nil) ? free(temp) : temp;
 	return (tmp->res);
 }

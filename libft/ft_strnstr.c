@@ -3,39 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/11 08:39:36 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/28 19:56:00 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/24 16:20:23 by student           #+#    #+#             */
+/*   Updated: 2020/05/25 05:25:17 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
-#include <stdio.h>
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char		*ft_strnstr(const char *outer, const char *inner, size_t len)
 {
-	size_t		ptr_little;
-	size_t		ptr_big;
+	size_t	inlen;
+	size_t	j;
+	size_t	i;
+	char	*out;
 
-	ptr_big = 0;
-	if (*little == '\0')
-		return ((char*)big);
-	while (ptr_big < len && big[ptr_big] != '\0')
+	if (!(out = (char *)outer))
+		return (0);
+	if (!(inlen = ft_strlen(inner)))
+		return (out);
+	if (ft_strlen(out) < inlen || len < inlen)
+		return (0);
+	i = 0;
+	while (out[i] && i <= len - inlen)
 	{
-		ptr_little = 0;
-		while (big[ptr_big + ptr_little] == little[ptr_little] &&
-		little[ptr_little] != '\0')
-		{
-			if (big[ptr_big + ptr_little] == '\0' ||
-			(ptr_big + ptr_little) > len)
-				return (NULL);
-			ptr_little++;
-		}
-		if (little[ptr_little] == '\0')
-			return ((char*)(big + ptr_big));
-		ptr_big++;
+		j = 0;
+		while (inner[j] && inner[j] == out[i + j])
+			j++;
+		if (j == inlen)
+			return (&out[i]);
+		i++;
 	}
-	return (NULL);
+	return (0);
 }

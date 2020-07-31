@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/24 06:16:42 by snaomi            #+#    #+#             */
-/*   Updated: 2020/05/24 06:22:29 by snaomi           ###   ########.fr       */
+/*   Created: 2020/05/24 19:47:26 by student           #+#    #+#             */
+/*   Updated: 2020/05/24 19:50:24 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	t_list	*temp;
+	t_list	*tmp;
 
-	temp = lst;
-	if (temp)
-	{
-		while (temp->next != NULL)
-			temp = temp->next;
-		return (temp);
-	}
-	return (0);
+	if (!(lst && del))
+		return ;
+	tmp = lst;
+	del(tmp->content);
+	lst = lst->next;
+	free(tmp);
 }

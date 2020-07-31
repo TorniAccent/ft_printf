@@ -29,12 +29,12 @@ typedef struct		s_struct
 
 int					ft_printf(const char *format, ...);
 t_struct			*ft_lstnew_printf(t_struct *tmp);
-int					ft_print_str(char *temp, t_struct *tmp);
-int					ft_print_char(char s, t_struct *tmp);
-int					ft_print_int(char *ptr, t_struct *tmp);
-int					ft_print_ptr(unsigned long long i, t_struct *tmp);
-int					ft_print_hex(unsigned int i, t_struct *tmp);
-int					ft_print_u(unsigned int i, t_struct *tmp);
+int					ft_print_str(va_list *ap, t_struct *tmp);
+int					ft_print_char(va_list *ap, t_struct *tmp);
+int					ft_print_int(va_list *ap, t_struct *tmp);
+int					ft_print_ptr(va_list *ap, t_struct *tmp);
+int					ft_print_hex(va_list *ap, t_struct *tmp);
+int					ft_print_u(va_list *ap, t_struct *tmp);
 t_struct			free_struct(t_struct *container);
 int					write_int(char *temp, int len, t_struct *tmp);
 int					ft_print_minus(char *temp, int len, t_struct *tmp);

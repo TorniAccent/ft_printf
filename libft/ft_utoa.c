@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snaomi <snaomi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: student <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/25 08:16:39 by snaomi            #+#    #+#             */
-/*   Updated: 2020/07/29 18:15:47 by snaomi           ###   ########.fr       */
+/*   Created: 2020/07/31 21:30:26 by student           #+#    #+#             */
+/*   Updated: 2020/07/31 21:30:28 by student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		count(unsigned int c)
+static	int		cnt(unsigned int c)
 {
 	int i;
 
@@ -33,7 +33,7 @@ char			*ft_utoa(unsigned int n)
 	int		len;
 	int		buf;
 
-	len = count(n);
+	len = cnt(n);
 	if (!(res = malloc(sizeof(*res) * (len + 1))))
 		return (NULL);
 	res[len] = '\0';
